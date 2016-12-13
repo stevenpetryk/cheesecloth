@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "cheesecloth/params/param"
+require "cheesecloth/params/base_param"
 require "cheesecloth/params/boolean_param"
 require "cheesecloth/params/datetime_param"
 
@@ -7,6 +7,7 @@ module CheeseCloth
   module Params
     extend ActiveSupport::Concern
 
+    # TODO: Add more of these.
     TYPE_MAPPINGS = {
       boolean: BooleanParam,
       datetime: DatetimeParam,
