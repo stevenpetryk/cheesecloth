@@ -1,6 +1,15 @@
 # frozen_string_literal: true
-require "/version"
+require "active_support"
+
+require "cheesecloth/version"
+require "cheesecloth/base_scope"
 
 module CheeseCloth
-  # Your code goes here...
+  extend ActiveSupport::Concern
+
+  include BaseScope
+
+  def initialize(scope: self.class.base_scope)
+    @scope = scope
+  end
 end
