@@ -35,7 +35,7 @@ class EventFilterer
       @scope = @scope.where("ends_at < ?", params[:start_date])
     end
 
-    if parse_boolean[:current_user_attending]
+    if parse_boolean(params[:current_user_attending])
       @scope = @scope.where_user_attending(user)
     end
 
