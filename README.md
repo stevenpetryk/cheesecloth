@@ -1,5 +1,7 @@
 # CheeseCloth
 
+**NOTE: Currently does nothing. This project is under active development.**
+
 Dealing with filtering based on params in Rails APIs is a pain.
 
 Let's say the boss tells you that you need to implement an endpoint for fetching Events. This
