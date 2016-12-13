@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "cheese_cloth/version"
+require "cheesecloth/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "cheesecloth"
@@ -11,14 +11,17 @@ Gem::Specification.new do |spec|
   spec.email         = ["me@stevenpetryk.com"]
 
   spec.summary       = "Take the boilerplate out of filtering a collection based on params."
-  spec.description   = "Take the boilerplate out of filtering a collection based on params."
-  spec.homepage      = "https://github.com/stevenpetryk/cheese_cloth"
+  spec.description   = <<-DESCRIPTION
+    Dealing with filtering based on params in Rails APIs is a pain. CheeseCloth is designed to take
+    the pain out of parsing, validating, and acting upon params designed to filter collections.
+  DESCRIPTION
+  spec.homepage      = "https://github.com/stevenpetryk/"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+    spec.metadata["allowed_push_host"] = "https://rubygems.org"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
@@ -30,6 +33,8 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+
+  spec.add_dependency "activesupport", "~> 5.0"
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"

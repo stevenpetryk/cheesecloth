@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "cheese_cloth/version"
+require "/version"
 
 module CheeseCloth
   # Your code goes here...
