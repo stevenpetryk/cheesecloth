@@ -14,7 +14,7 @@ GET /api/events
 ```
 
 Your controller action quickly becomes a nightmare. But wait—you're a
-good developer, and you extract these filters out into a `EventFilterer` object:
+good developer, and you extract these filters out into an `EventFilterer` object:
 
 ```rb
 class EventFilterer
