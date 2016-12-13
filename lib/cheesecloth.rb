@@ -13,7 +13,7 @@ module CheeseCloth
   include BaseScope
 
   def initialize(scope: self.class.base_scope)
-    raise MissingScopeError unless scope
+    raise MissingScopeError, self.class unless scope
 
     @scope = scope
   end
