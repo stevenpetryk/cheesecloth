@@ -114,7 +114,7 @@ end
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'cheese_cloth'
+gem "cheese_cloth"
 ```
 
 And then execute:
