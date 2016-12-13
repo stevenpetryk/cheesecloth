@@ -3,19 +3,17 @@ require "spec_helper"
 
 describe CheeseCloth::Params do
   let(:dummy_class) do
-    klass = Class.new { include CheeseCloth }
-    klass.instance_eval(&extensions)
-    klass
+    Class.new do
+      include CheeseCloth
+
+      scope -> { [1, 2, 3] }
+    end
   end
 
   describe ".param" do
-    let(:extensions) do
-      Proc.new do
-        scope -> { [1, 2, 3] }
-
-        param :boolean, :boolean
-        param :datetime, :datetime
-      end
+    before do
+      dummy_class.param :boolean, :boolean
+      dummy_class.param :datetime, :datetime
     end
 
     it "correctly casts a boolean" do
