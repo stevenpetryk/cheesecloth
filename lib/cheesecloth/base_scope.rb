@@ -4,7 +4,7 @@ module CheeseCloth
     extend ActiveSupport::Concern
 
     included do
-      cattr_accessor :base_scope
+      cattr_accessor :base_scope_proc
     end
 
     def filtered_collection
@@ -13,7 +13,7 @@ module CheeseCloth
 
     class_methods do
       def scope(block)
-        self.base_scope = block.call
+        self.base_scope_proc = block
       end
     end
   end
