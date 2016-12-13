@@ -84,7 +84,7 @@ class EventFilterer
   end
 
   def start_date_before_end_date
-    throw "start date must be before end date" unless start_date <= end_date
+    throw "start_date must be before end_date" unless start_date < end_date
   end
 end
 ```
