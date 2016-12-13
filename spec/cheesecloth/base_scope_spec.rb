@@ -23,4 +23,14 @@ describe CheeseCloth::BaseScope do
       expect(dummy_class.new(scope: [3, 2, 1]).filtered_collection).to eq [3, 2, 1]
     end
   end
+
+  describe "error handling" do
+    context "when the base scope isn't set" do
+      let(:extensions) { Proc.new {} }
+
+      it "throws an exception" do
+        expect { dummy_class.new }.to raise_error(CheeseCloth::MissingScopeError)
+      end
+    end
+  end
 end
