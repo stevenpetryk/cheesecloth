@@ -16,11 +16,11 @@ describe CheeseCloth::BaseScope do
     end
 
     it "sets the base collection" do
-      expect(dummy_class.new.filtered_collection).to eq [1, 2, 3]
+      expect(dummy_class.new(nil).filtered_collection).to eq [1, 2, 3]
     end
 
     it "can be overriden dynamically during initialization" do
-      expect(dummy_class.new(scope: [3, 2, 1]).filtered_collection).to eq [3, 2, 1]
+      expect(dummy_class.new(nil, scope: [3, 2, 1]).filtered_collection).to eq [3, 2, 1]
     end
   end
 
@@ -29,7 +29,7 @@ describe CheeseCloth::BaseScope do
       let(:extensions) { Proc.new {} }
 
       it "throws an exception" do
-        expect { dummy_class.new }.to raise_error(CheeseCloth::MissingScopeError)
+        expect { dummy_class.new(nil) }.to raise_error(CheeseCloth::MissingScopeError)
       end
     end
   end
