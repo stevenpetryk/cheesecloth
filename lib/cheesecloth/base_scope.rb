@@ -7,10 +7,6 @@ module CheeseCloth
       cattr_accessor :base_scope_proc
     end
 
-    def filtered_collection
-      @scope
-    end
-
     class_methods do
       def scope(block)
         self.base_scope_proc = block

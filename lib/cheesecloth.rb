@@ -21,5 +21,11 @@ module CheeseCloth
 
     @params = params
     @scope = scope
+
+    instantiate_proxies
+  end
+
+  def filtered_collection
+    @scope
   end
 end

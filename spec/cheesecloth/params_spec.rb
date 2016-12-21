@@ -21,7 +21,7 @@ describe CheeseCloth::Params do
     end
 
     it "correctly casts a datetime" do
-      expect(dummy_class.new(datetime: "2016-10-10").datetime).to eq Time.parse("2016-10-10")
+      expect(dummy_class.new(datetime: "2016-10-10").datetime).to eq DateTime.parse("2016-10-10")
     end
   end
 end

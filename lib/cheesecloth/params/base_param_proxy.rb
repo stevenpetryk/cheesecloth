@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 module CheeseCloth
   module Params
-    class BaseParam
+    class BaseParamProxy
+      attr_reader :value
+
       def initialize(value)
         @value = value
       end
 
       def normalized
-        @value
+        value
       end
     end
   end
