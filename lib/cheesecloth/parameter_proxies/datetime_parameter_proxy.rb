@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module CheeseCloth
-  module Params
-    class DatetimeParamProxy < BaseParamProxy
+  module ParameterProxies
+    class DatetimeParameterProxy < BaseParameterProxy
       def normalized
         DateTime.parse(value)
       rescue ArgumentError

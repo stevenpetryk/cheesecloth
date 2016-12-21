@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-describe CheeseCloth::Params do
+describe "CheeseCloth.param" do
   let(:dummy_class) do
     Class.new do
       include CheeseCloth
