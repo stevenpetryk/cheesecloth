@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-describe CheeseCloth::BaseScope do
+describe "CheeseCloth::BaseScope" do
   let(:dummy_class) do
     klass = Class.new { include CheeseCloth }
     klass.instance_eval(&extensions)

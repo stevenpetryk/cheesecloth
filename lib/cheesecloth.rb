@@ -2,30 +2,48 @@
 require "active_support/concern"
 require "active_support/core_ext/class/attribute_accessors"
 require "active_support/core_ext/string/strip"
+require "active_support/core_ext/module/delegation"
 
 require "cheesecloth/version"
-require "cheesecloth/base_scope"
 require "cheesecloth/errors"
-require "cheesecloth/params"
+require "cheesecloth/wrapper"
 
 module CheeseCloth
   extend ActiveSupport::Concern
 
-  include BaseScope
-  include Params
+  included do
+    cattr_accessor :cheesecloth_wrapper
+    self.cheesecloth_wrapper = Wrapper.new(self)
 
-  attr_reader :params, :scope
+    attr_reader :scope, :params
+  end
 
-  def initialize(params, scope: self.class.base_scope_proc&.call)
-    raise MissingScopeError, self.class unless scope
+  class_methods do
+    def scope(*args)
+      cheesecloth_wrapper.assign_scope(*args)
+    end
+
+    def param(*args)
+      cheesecloth_wrapper.add_parameter_proxy(*args)
+    end
+  end
+
+  def initialize(params, scope: nil)
+    cheesecloth_wrapper.ready(params)
 
     @params = params
-    @scope = scope
+    @scope = scope || cheesecloth_wrapper.scope
 
-    instantiate_proxies
+    raise MissingScopeError, self.class unless @scope
   end
 
   def filtered_collection
     @scope
+  end
+
+  private
+
+  def cheesecloth_wrapper
+    self.class.cheesecloth_wrapper
   end
 end
