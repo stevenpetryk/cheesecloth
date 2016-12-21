@@ -27,12 +27,12 @@ module CheeseCloth
         parameter_proxies << proxy_class.new(name, params[name])
       end
 
-      attach_accessors_to(klass)
+      attach_accessors(klass)
     end
 
     private
 
-    def attach_accessors_to(klass)
+    def attach_accessors(klass)
       parameter_proxies.each do |proxy|
         proxy.method_names.each do |method_name|
           attach_accessor(klass, proxy, method_name)
