@@ -3,16 +3,12 @@ require "spec_helper"
 
 describe "CheeseCloth.scope" do
   let(:dummy_class) do
-    klass = Class.new { include CheeseCloth }
-    klass.instance_eval(&extensions)
-    klass
+    Class.new { include CheeseCloth }
   end
 
   describe ".scope" do
-    let(:extensions) do
-      Proc.new do
-        scope -> { [1, 2, 3] }
-      end
+    before do
+      dummy_class.scope -> { [1, 2, 3] }
     end
 
     it "sets the base collection" do
@@ -26,8 +22,6 @@ describe "CheeseCloth.scope" do
 
   describe "error handling" do
     context "when the base scope isn't set" do
-      let(:extensions) { Proc.new {} }
-
       it "throws an exception" do
         expect { dummy_class.new(nil) }.to raise_error(CheeseCloth::MissingScopeError)
       end
