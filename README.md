@@ -67,11 +67,13 @@ Yikes. We can do better.
 class EventFilterer
   include CheeseCloth
 
-  scope -> { Event.all }
+  attribute :start_date, Date, required: true
+  attribute :end_date, Date, required: true
+  attribute :current_user_attending, Date, required: true
 
-  param :start_date, :date, required: true
-  param :end_date, :date, required: true
-  param :current_user_attending, :boolean, required: true
+  validates :start_date, :end_date, :current_user_attending, presence: true
+
+  scope -> { Event.all }
 
   filter :start_date do
     scope.where("starts_at > ?", start_date)
@@ -91,7 +93,7 @@ class EventFilterer
 end
 ```
 
-Using this in our controller is incredibly simple.
+Since our filterer extends ActiveModel, using this in our controller is incredibly simple.
 
 ```rb
 class EventsController < ApplicationController
