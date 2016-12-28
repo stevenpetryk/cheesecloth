@@ -12,7 +12,7 @@ module CheeseCloth
 
         Try something like:
 
-        class #{@klass.name}
+        class #{@klass.name || 'FooFilterer'}
           include CheeseCloth
 
           scope -> { Model.all }
