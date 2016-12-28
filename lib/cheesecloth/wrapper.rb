@@ -12,10 +12,7 @@ module CheeseCloth
     end
 
     def ready
-      return if @ready
-      @ready = true
-
-      @scope = default_scope_proc && default_scope_proc.call
+      @scope ||= default_scope_proc && default_scope_proc.call
     end
   end
 end
