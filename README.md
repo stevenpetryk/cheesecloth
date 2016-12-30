@@ -1,7 +1,7 @@
 # CheeseCloth
 
-Makes filtering in Rails based on params less of a pain. CheeseCloth provides a helpful, 2-macro DSL
-to help you chain filters together that only run if a given param is present.
+Makes filtering in Rails based on params less of a pain. CheeseCloth provides a transparent, tiny
+DSL to help you chain filters together that only run if a given param is present.
 
 * [Introduction](#introduction)
 * [Installation](#installation)
@@ -36,10 +36,10 @@ good developer, and you extract these filters out into an `EventFilterer` object
 class EventFilterer
   attr_reader :scope, :user, :params
 
-  def initialize(scope = Event.all, user, params)
-    @scope = scope
-    @user = user
+  def initialize(params, user:, scope: Event.all)
     @params = params
+    @user = user
+    @scope = scope
   end
 
   def filtered_scope
@@ -91,9 +91,9 @@ class EventFilterer
 
   attr_reader :user, :params
 
-  def initialize(user, params)
-    @user = user
+  def initialize(params, user:)
     @params = params
+    @user = user
   end
 
   scope -> { Event.all }
@@ -149,7 +149,7 @@ class EventFilterer
 
   def initialize(params, user:)
     @user = user
-    super(params) # mass-assign via Virtus
+    super(params) # mass-assignment via Virtus
   end
 
   scope -> { Event.all }
@@ -169,7 +169,7 @@ end
 ```
 
 Now we're talkin'. While there's no hard dependency, CheeseCloth works _really_ well when paired
-with Virtus. This pattern keeps our controller beautifully concise:
+with Virtus. Here's our controller, by the way:
 
 ```rb
 class EventsController < ApplicationController
@@ -185,7 +185,7 @@ class EventsController < ApplicationController
 end
 ```
 
-You can check out [more use cases](#examples) below.
+Nice and simple. You can check out [more use cases](#examples) below.
 
 ## Installation
 
