@@ -23,10 +23,7 @@ module CheeseCloth
     private
 
     def wrap(possible_array)
-      return [] if possible_array.nil?
-      return possible_array if possible_array.is_a? Array
-
-      [possible_array]
+      [possible_array].flatten.compact
     end
   end
 end
