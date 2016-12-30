@@ -6,6 +6,10 @@ DSL to help you chain filters together that only run if a given param is present
 * [Introduction](#introduction)
 * [Installation](#installation)
 * [Examples](#examples)
+  * [Filtering based on a single parameter](#filtering-based-on-a-single-parameter)
+  * [Filtering based on multiple parameters](#filtering-based-on-multiple-parameters)
+  * [Applying a filter unconditionally](#applying-a-filter-unconditionally)
+  * [Validating parameters](#validating-parameters)
 * [Development](#contributing)
 * [Contributing](#contributing)
 * [License](#contributing)
@@ -263,7 +267,7 @@ class FooFilterer
 end
 ```
 
-## Validating params
+## Validating parameters
 
 CheeseCloth doesn't have any mechanism for validation by design. I'd recommend turning your filterer
 into an ActiveModel:
