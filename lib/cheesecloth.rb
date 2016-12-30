@@ -28,25 +28,17 @@ module CheeseCloth
   end
 
   def scope
-    cheesecloth_instance_scope
+    scope_override || cheesecloth_wrapper.scope
   end
 
   def filtered_collection(scope: nil)
     self.scope_override = scope
-
-    cheesecloth_wrapper.prepare
-    raise MissingScopeError, self.class unless cheesecloth_instance_scope
-
-    cheesecloth_wrapper.run(self)
+    cheesecloth_wrapper.prepare_and_run(self)
   end
 
   private
 
   def cheesecloth_wrapper
     self.class.cheesecloth_wrapper
-  end
-
-  def cheesecloth_instance_scope
-    scope_override || cheesecloth_wrapper.scope
   end
 end

@@ -12,8 +12,14 @@ module CheeseCloth
       @default_scope_proc = block
     end
 
-    def prepare
+    def prepare_and_run(instance)
+      assign_and_check_scope(instance)
+      run(instance)
+    end
+
+    def assign_and_check_scope(instance)
       @scope ||= default_scope_proc && default_scope_proc.call
+      raise MissingScopeError, self.class unless instance.scope
     end
 
     def run(instance)
