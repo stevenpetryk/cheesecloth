@@ -18,7 +18,7 @@ module CheeseCloth
     end
 
     def assign_and_check_scope(instance)
-      @scope ||= default_scope_proc && default_scope_proc.call
+      @scope ||= default_scope_proc && instance.instance_exec(&default_scope_proc)
       raise MissingScopeError, self.class unless instance.scope
     end
 

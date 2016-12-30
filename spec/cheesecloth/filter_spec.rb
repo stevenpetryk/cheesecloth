@@ -6,6 +6,8 @@ describe "CheeseCloth.filter" do
 
   let(:dummy_class) do
     klass = Class.new do
+      cattr_accessor :starting_scope
+
       include CheeseCloth
 
       def some_present_param
@@ -16,7 +18,7 @@ describe "CheeseCloth.filter" do
         nil
       end
     end
-
+    klass.starting_scope = starting_scope
     klass.scope -> { starting_scope }
     klass
   end
