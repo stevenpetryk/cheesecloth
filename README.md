@@ -216,18 +216,22 @@ Or install it yourself as:
 class FooFilterer
   include CheeseCloth
 
+  attr_reader :foo
+
+  def initialize(foo:)
+    @foo = foo
+  end
+
   scope -> { [1, 2, 3] }
 
   filter :foo do
     # this will only run if self.foo is truthy.
-  end
-
-  private
-
-  def foo
-    # ...
+    scope.reverse
   end
 end
+
+FooFilterer.new(foo: true).filtered_scope #=> [3, 2, 1]
+FooFilterer.new(foo: false).filtered_scope #=> [1, 2, 3]
 ```
 
 ### Filtering based on multiple parameters
@@ -236,22 +240,22 @@ end
 class FooFilterer
   include CheeseCloth
 
+  attr_reader :foo, :bar
+
+  def initialize(foo:, bar:)
+    @foo, @bar = foo, bar
+  end
+
   scope -> { [1, 2, 3] }
 
   filter [:foo, :bar] do
     # this will only run if self.foo && self.bar
-  end
-
-  private
-
-  def foo
-    # ...
-  end
-
-  def bar
-    # ...
+    scope - [2]
   end
 end
+
+FooFilterer.new(foo: true, bar: true).filtered_scope #=> [1, 3]
+FooFilterer.new(foo: true, bar: false).filtered_scope #=> [1, 2, 3]
 ```
 
 ## Applying a filter unconditionally
@@ -263,9 +267,12 @@ class FooFilterer
   scope -> { [1, 2, 3] }
 
   filter do
+    scope + [4, 5, 6]
     # this will always run
   end
 end
+
+FooFilterer.new.filtered_scope #=> [1, 2, 3, 4, 5, 6]
 ```
 
 ## Overriding the starting scope
@@ -274,7 +281,18 @@ If you need to, you can override the starting scope at "runtime" (a.k.a, right b
 are ran). `#filtered_scope` takes an optional `scope` keyword argument.
 
 ```rb
-EventFilterer.new(...).filtered_scope(scope: different_starting_scope)
+class FooFilterer
+  include CheeseCloth
+
+  scope -> { [1, 2, 3] }
+
+  filter do
+    scope + [4, 5, 6]
+    # this will always run
+  end
+end
+
+FooFilterer.new.filtered_scope(scope: [1]) #=> [1, 4, 5, 6]
 ```
 
 ## Validating parameters
