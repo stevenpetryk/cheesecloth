@@ -9,8 +9,6 @@ module CheeseCloth
     end
 
     def run(instance)
-      return unless conditions_satisfied?(instance)
-
       instance.instance_eval(&block)
     end
 
