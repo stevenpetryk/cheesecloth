@@ -12,8 +12,11 @@ module CheeseCloth
       @default_scope_proc = block
     end
 
-    def ready(instance)
+    def prepare
       @scope ||= default_scope_proc && default_scope_proc.call
+    end
+
+    def run(instance)
       filter_list.run_filters(instance)
     end
   end

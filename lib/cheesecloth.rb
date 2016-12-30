@@ -13,6 +13,8 @@ module CheeseCloth
   included do
     cattr_accessor :cheesecloth_wrapper
     self.cheesecloth_wrapper = Wrapper.new(self)
+
+    attr_accessor :scope_override
   end
 
   class_methods do
@@ -30,11 +32,12 @@ module CheeseCloth
   end
 
   def filtered_collection(scope: nil)
-    self.scope = scope
-    cheesecloth_wrapper.ready
+    self.scope_override = scope
+
+    cheesecloth_wrapper.prepare
     raise MissingScopeError, self.class unless cheesecloth_instance_scope
 
-    cheesecloth_instance_scope
+    cheesecloth_wrapper.run(self)
   end
 
   private
@@ -44,6 +47,6 @@ module CheeseCloth
   end
 
   def cheesecloth_instance_scope
-    @scope || cheesecloth_wrapper.scope
+    scope_override || cheesecloth_wrapper.scope
   end
 end

@@ -14,13 +14,13 @@ module CheeseCloth
       instance.instance_eval(&block)
     end
 
-    private
-
     def conditions_satisfied?(instance)
       return true if conditions.empty?
 
-      conditions.all? { |condition| instance.send(condition).present? }
+      conditions.all? { |condition| instance.send(condition) }
     end
+
+    private
 
     def wrap(possible_array)
       return [] if possible_array.nil?

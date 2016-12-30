@@ -56,4 +56,30 @@ describe "CheeseCloth.filter" do
       expect(dummy_class.new.filtered_collection).to eq starting_scope.reverse
     end
   end
+
+  context "when filtering on multiple params" do
+    context "when one is false" do
+      before do
+        dummy_class.filter [:some_present_param, :some_blank_param] do
+          scope.reverse
+        end
+      end
+
+      it "does not run the filter" do
+        expect(dummy_class.new.filtered_collection).to eq starting_scope
+      end
+    end
+
+    context "when both are true" do
+      before do
+        dummy_class.filter [:some_present_param, :some_present_param] do
+          scope.reverse
+        end
+      end
+
+      it "runs the filter" do
+        expect(dummy_class.new.filtered_collection).to eq starting_scope.reverse
+      end
+    end
+  end
 end
