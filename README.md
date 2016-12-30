@@ -11,6 +11,7 @@ DSL to help you chain filters together that only run if a given param is present
   * [Applying a filter unconditionally](#applying-a-filter-unconditionally)
   * [Overriding the starting scope](#overriding-the-starting-scope)
   * [Validating parameters](#validating-parameters)
+  * [Real world example (Virtus + ActiveModel)](#real-world-example-virtus-activemodel)
 * [Development](#contributing)
 * [Contributing](#contributing)
 * [License](#contributing)
@@ -258,7 +259,7 @@ FooFilterer.new(foo: true, bar: true).filtered_scope #=> [1, 3]
 FooFilterer.new(foo: true, bar: false).filtered_scope #=> [1, 2, 3]
 ```
 
-## Applying a filter unconditionally
+### Applying a filter unconditionally
 
 ```rb
 class FooFilterer
@@ -275,7 +276,7 @@ end
 FooFilterer.new.filtered_scope #=> [1, 2, 3, 4, 5, 6]
 ```
 
-## Overriding the starting scope
+### Overriding the starting scope
 
 If you need to, you can override the starting scope at "runtime" (a.k.a, right before the filters
 are ran). `#filtered_scope` takes an optional `scope` keyword argument.
@@ -295,7 +296,7 @@ end
 FooFilterer.new.filtered_scope(scope: [1]) #=> [1, 4, 5, 6]
 ```
 
-## Validating parameters
+### Validating parameters
 
 CheeseCloth doesn't have any mechanism for validation by design. I'd recommend turning your filterer
 into an ActiveModel:
@@ -324,6 +325,66 @@ class FooController < ActionController::Base
   def filterer
     FooFilterer.new(...)
   end
+end
+```
+
+### Real-world example (Virtus + ActiveModel)
+
+The previous examples could have, of course, been simplified with the use of Virtus to handle
+mass assignment and deserialization, and using ActiveModel's validations. Here's a real-world
+scenario, with a corresponding controller action. Imagine our endpoint had the following criteria:
+
+* Venue type must be specified.
+* Start date and end date will either both be specified, or neither will be. If only one is
+specified, don't filter based on date.
+
+```rb
+class EventsFilterer
+  include CheeseCloth
+  include Virtus.model
+  include ActiveModel::Model
+
+  attribute :venue_type, String
+  attribute :start_date, DateTime
+  attribute :end_date, DateTime
+
+  validates :venue_type, presence: true
+
+  scope -> { Event.all }
+
+  filter :venue_type do
+    scope.at_venue_type(venue_type)
+  end
+
+  filter [:start_date, :end_date] do
+    scope.within_dates(start_date, end_date)
+  end
+end
+
+class EventsController < ApplicationController
+  def index
+    if filterer.valid?
+      # Note that we limit the scope to only the current user's events. Nifty!
+      render json: filterer.filtered_scope(scope: current_user.events)
+    else
+      render json: filterer
+    end
+  end
+
+  private
+
+  def filterer
+    EventsFilterer.new(params[:filter])
+  end
+end
+
+class Event < ApplicationRecord
+  scope :at_venue_type, ->(type) { where(venue_type: type) }
+  scope :within_dates, ->(start_date, end_date) do
+    where("starts_at BETWEEN ? and ?", start_date, end_date)
+  end
+
+  # ...
 end
 ```
 
