@@ -12,8 +12,8 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Take the boilerplate out of filtering a collection based on params."
   spec.description   = <<-DESCRIPTION
-    Dealing with filtering based on params in Rails APIs is a pain. CheeseCloth is designed to take
-    the pain out of parsing, validating, and acting upon params designed to filter collections.
+    Dealing with filtering based on params in Rails is a pain. CheeseCloth is designed to make it
+    simple.
   DESCRIPTION
   spec.homepage      = "https://github.com/stevenpetryk/"
   spec.license       = "MIT"
