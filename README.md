@@ -9,6 +9,7 @@ DSL to help you chain filters together that only run if a given param is present
   * [Filtering based on a single parameter](#filtering-based-on-a-single-parameter)
   * [Filtering based on multiple parameters](#filtering-based-on-multiple-parameters)
   * [Applying a filter unconditionally](#applying-a-filter-unconditionally)
+  * [Overriding the starting scope](#overriding-the-starting-scope)
   * [Validating parameters](#validating-parameters)
 * [Development](#contributing)
 * [Contributing](#contributing)
@@ -265,6 +266,15 @@ class FooFilterer
     # this will always run
   end
 end
+```
+
+## Overriding the starting scope
+
+If you need to, you can override the starting scope at "runtime" (a.k.a, right before the filters
+are ran). `#filtered_scope` takes an optional `scope` keyword argument.
+
+```rb
+EventFilterer.new(...).filtered_scope(scope: different_starting_scope)
 ```
 
 ## Validating parameters
