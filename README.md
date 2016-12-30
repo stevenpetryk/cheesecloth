@@ -12,7 +12,7 @@ to help you chain filters together that only run if a given param is present.
 
 ---
 
-## Justification
+## Introduction
 
 **Want to skip the intro? Check out the [examples section](#examples).**
 
