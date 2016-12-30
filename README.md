@@ -11,7 +11,7 @@ DSL to help you chain filters together that only run if a given param is present
   * [Applying a filter unconditionally](#applying-a-filter-unconditionally)
   * [Overriding the starting scope](#overriding-the-starting-scope)
   * [Validating parameters](#validating-parameters)
-  * [Real world example (Virtus + ActiveModel)](#real-world-example-virtus-activemodel)
+  * [Real world example (Virtus + ActiveModel)](#real-world-example-virtus--activemodel)
 * [Development](#contributing)
 * [Contributing](#contributing)
 * [License](#contributing)
