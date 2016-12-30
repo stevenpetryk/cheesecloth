@@ -29,7 +29,7 @@ describe "CheeseCloth.filter" do
     end
 
     it "runs the filter" do
-      expect(dummy_class.new.filtered_collection).to eq starting_scope.reverse
+      expect(dummy_class.new.filtered_scope).to eq starting_scope.reverse
     end
   end
 
@@ -41,7 +41,7 @@ describe "CheeseCloth.filter" do
     end
 
     it "does not run the filter" do
-      expect(dummy_class.new.filtered_collection).to eq starting_scope
+      expect(dummy_class.new.filtered_scope).to eq starting_scope
     end
   end
 
@@ -53,7 +53,23 @@ describe "CheeseCloth.filter" do
     end
 
     it "runs the filter" do
-      expect(dummy_class.new.filtered_collection).to eq starting_scope.reverse
+      expect(dummy_class.new.filtered_scope).to eq starting_scope.reverse
+    end
+  end
+
+  context "when filtering multiple times" do
+    before do
+      dummy_class.filter do
+        scope.reverse
+      end
+
+      dummy_class.filter do
+        scope.reverse
+      end
+    end
+
+    it "chains the filters" do
+      expect(dummy_class.new.filtered_scope).to eq starting_scope
     end
   end
 
@@ -66,7 +82,7 @@ describe "CheeseCloth.filter" do
       end
 
       it "does not run the filter" do
-        expect(dummy_class.new.filtered_collection).to eq starting_scope
+        expect(dummy_class.new.filtered_scope).to eq starting_scope
       end
     end
 
@@ -78,7 +94,7 @@ describe "CheeseCloth.filter" do
       end
 
       it "runs the filter" do
-        expect(dummy_class.new.filtered_collection).to eq starting_scope.reverse
+        expect(dummy_class.new.filtered_scope).to eq starting_scope.reverse
       end
     end
   end

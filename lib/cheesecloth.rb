@@ -15,6 +15,7 @@ module CheeseCloth
     self.cheesecloth_wrapper = Wrapper.new(self)
 
     attr_accessor :scope_override
+    attr_writer :scope
   end
 
   class_methods do
@@ -28,12 +29,13 @@ module CheeseCloth
   end
 
   def scope
-    scope_override || cheesecloth_wrapper.scope
+    @scope || scope_override || cheesecloth_wrapper.scope
   end
 
-  def filtered_collection(scope: nil)
+  def filtered_scope(scope: nil)
     self.scope_override = scope
     cheesecloth_wrapper.prepare_and_run(self)
+    self.scope
   end
 
   private

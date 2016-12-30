@@ -13,9 +13,9 @@ module CheeseCloth
     end
 
     def run_filters(instance)
-      scope = instance.send(:scope)
-      runnable_filters_on(instance).each { |filter| scope = filter.run(instance) }
-      scope
+      runnable_filters_on(instance).each do |filter|
+        instance.scope = filter.run(instance)
+      end
     end
 
     private

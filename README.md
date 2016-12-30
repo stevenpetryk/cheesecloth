@@ -28,7 +28,7 @@ class EventFilterer
     @params = params
   end
 
-  def filtered_collection
+  def filtered_scope
     if parse_date(params[:start_date])
       @scope = @scope.where("starts_at > ?", params[:start_date])
     end
@@ -99,7 +99,7 @@ Since our filterer extends ActiveModel, using this in our controller is incredib
 class EventsController < ApplicationController
   def index
     if filterer.valid?
-      render json: filterer.filtered_collection
+      render json: filterer.filtered_scope
     else
       render json: { errors: filterer.errors }, status: 422
     end
