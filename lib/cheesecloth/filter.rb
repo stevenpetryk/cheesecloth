@@ -15,8 +15,6 @@ module CheeseCloth
     end
 
     def conditions_satisfied?(instance)
-      return true if conditions.empty?
-
       conditions.all? { |condition| instance.send(condition) }
     end
 
