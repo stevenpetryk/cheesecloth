@@ -1,7 +1,5 @@
 # frozen_string_literal: true
-require "active_model"
-require "active_support/concern"
-require "virtus"
+require "active_support"
 
 require_relative "cheesecloth/version"
 require_relative "cheesecloth/errors"
@@ -11,9 +9,6 @@ module CheeseCloth
   extend ActiveSupport::Concern
 
   included do
-    include ActiveModel::Model
-    include Virtus.model
-
     cattr_accessor :cheesecloth_wrapper
     self.cheesecloth_wrapper = Wrapper.new(self)
 
@@ -26,7 +21,8 @@ module CheeseCloth
     end
   end
 
-  def filtered_collection
+  def filtered_collection(scope: nil)
+    self.scope = scope
     cheesecloth_wrapper.ready
     raise MissingScopeError, self.class unless cheesecloth_instance_scope
 

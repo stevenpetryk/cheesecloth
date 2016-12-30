@@ -15,8 +15,8 @@ describe "CheeseCloth.scope" do
       expect(dummy_class.new.filtered_collection).to eq [1, 2, 3]
     end
 
-    it "can be overriden dynamically during initialization" do
-      expect(dummy_class.new(scope: [3, 2, 1]).filtered_collection).to eq [3, 2, 1]
+    it "can be overriden dynamically during filtering" do
+      expect(dummy_class.new.filtered_collection(scope: [3, 2, 1])).to eq [3, 2, 1]
     end
   end
 
