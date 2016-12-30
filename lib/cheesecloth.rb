@@ -3,6 +3,8 @@ require "active_support"
 
 require_relative "cheesecloth/version"
 require_relative "cheesecloth/errors"
+require_relative "cheesecloth/filter"
+require_relative "cheesecloth/filter_list"
 require_relative "cheesecloth/wrapper"
 
 module CheeseCloth
@@ -11,14 +13,20 @@ module CheeseCloth
   included do
     cattr_accessor :cheesecloth_wrapper
     self.cheesecloth_wrapper = Wrapper.new(self)
-
-    attr_accessor :scope
   end
 
   class_methods do
     def scope(*args)
       cheesecloth_wrapper.assign_default_scope_proc(*args)
     end
+
+    def filter(conditions = nil, &block)
+      cheesecloth_wrapper.filter_list.add_filter(conditions, block)
+    end
+  end
+
+  def scope
+    cheesecloth_instance_scope
   end
 
   def filtered_collection(scope: nil)
@@ -36,6 +44,6 @@ module CheeseCloth
   end
 
   def cheesecloth_instance_scope
-    scope || cheesecloth_wrapper.scope
+    @scope || cheesecloth_wrapper.scope
   end
 end
